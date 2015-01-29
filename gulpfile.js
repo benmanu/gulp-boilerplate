@@ -84,7 +84,7 @@ gulp.task('css', ['css:lint'], function() {
         .pipe(sass({
         	sourceComments: 'map',
         	includePaths: [
-        		build.css
+        		build.scss
         	]
         }))
         .pipe(prefix("last 1 version", "> 1%", "ie 8"))
