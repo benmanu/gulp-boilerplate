@@ -15,6 +15,8 @@ var prefix      = require('gulp-autoprefixer');
 var browserify  = require('browserify');
 var stream      = require('vinyl-source-stream');
 var iconify     = require('gulp-iconify');
+var replace     = require('gulp-replace');
+var rename      = require("gulp-rename");
 
 // source paths
 var base = 'themes/default/'; // theme root
@@ -127,6 +129,19 @@ gulp.task('icon', function() {
         cssOutput: paths.icons.output,
         scssDisabled: true
     });
+});
+
+gulp.task('colorise_test', function() {
+    var colors = ['#666666', '#888888', 'red', 'green'];
+
+    for (var i = colors.length - 1; i >= 0; i--) {
+        var color = colors[i];
+        gulp.src(paths.icons.src)
+            .pipe(replace(/(.*?fill=")([^"]*?)(".*?)/g, '$1' + color + '$3'))
+            .pipe(rename({ suffix: "-" + color }))
+            .pipe(gulp.dest('./' + base + 'temp/'));
+    };
+
 });
 
 gulp.task('watch', ['css:prod', 'js:prod'], function() {
